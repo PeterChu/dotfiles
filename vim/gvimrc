@@ -13,6 +13,8 @@ if has("gui_gtk2")
     set guifont=Inconsolata\ 10.5
 elseif has("win32")
     set guifont=Consolas:h11
+else
+    set guifont=Cousine:h15
 endif
 
 
