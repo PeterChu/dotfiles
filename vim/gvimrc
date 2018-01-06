@@ -40,15 +40,5 @@ map <C-a> :call DoubleSizeAndVsplit()<CR>
 map <C-q> :close<CR>
 map <C-s> :split<CR>
 
-
-" Hook in an extra menu for emake compilation.
-"
-if $OS == "SunOS"
-    amenu Emake.forte :set makeprg=emake.sh\ forte<CR>:make<CR>
-    amenu Emake.forte-O :set makeprg=emake.sh\ forte-O<CR>:make<CR>
-elseif $OS == "Linux"
-    amenu Emake.gcc :set makeprg=emake.sh\ gcc-debug<CR>:make<CR>
-    amenu Emake.gcc-O :set makeprg=emake.sh\ gcc-O<CR>:make<CR>
-endif
-
-colors mayansmoke
+"colors mayansmoke
+colors harmony

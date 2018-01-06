@@ -1,5 +1,5 @@
 " Pathogen - Plugin Manager
-call pathogen#infect()
+"call pathogen#infect()
 
 " We want syntax highlighting on.
 "
@@ -38,11 +38,12 @@ set splitbelow
 if $OS == "SunOS"
     set term=xterm-color
 endif
-set textwidth=78
+set textwidth=80
+set colorcolumn=+1
 set viminfo=
 set visualbell t_vb=
-set wrap
-
+set nowrap
+set hlsearch
 " Certain options are only available in vim.
 "
 if v:progname != "vi"
@@ -54,7 +55,8 @@ endif
 
 "Set colorscheme as mayansmoke
 "
-colorscheme mayansmoke
+"colorscheme mayansmoke
+colorscheme moonfly
 
 " Customize the highlighting.
 "
@@ -124,16 +126,16 @@ endif
 
 " Functions.
 "
-fun BlockFolds()
-    if &foldenable
-        set foldcolumn=0
-        set nofoldenable
-    else
-        set foldenable
-        set foldcolumn=4
-        set foldmethod=indent
-    endif
-endfunc
+"fun BlockFolds()
+"    if &foldenable
+"        set foldcolumn=0
+"        set nofoldenable
+"    else
+"        set foldenable
+"        set foldcolumn=4
+"        set foldmethod=indent
+"    endif
+"endfunc
 
 fun FileOpen(p_extension)
     let w:basefile = substitute(bufname("%"), "\\.[a-zA-Z]\\+$", "", "")
@@ -159,6 +161,10 @@ fun HighlightEOL()
     endif
 endfun
 
+" Disable menu bar.
+set guioptions-=m
+" Toggle hide/unhide menu bar.
+nnoremap <Leader>m :if &go=~#'m'<Bar>set go-=m<Bar>else<Bar>set go+=m<Bar>endif<CR>
 
 " General keyboard mappings.
 "
@@ -174,7 +180,7 @@ map <F5> :call FileOpen(".hh")<CR>
 map <F6> :call FileOpen(".icc")<CR>
 map <F7> :call FileOpen(".cc")<CR>
 map <F8> :call FileOpen(".tcc")<CR>
-map <F9> :call BlockFolds()<CR>
+" map <F9> :call BlockFolds()<CR>
 map <F10> :NERDTreeToggle<CR>
 map <S-F10> :TagbarToggle<CR>
 map <F11> :set hls!<CR>
@@ -191,8 +197,18 @@ imap <Home> <Esc>^i
 nnoremap <Tab> <C-W>W
 " Close the current window
 nnoremap <C-w> :q<CR>
+" Move tab to left or right in Gvim
+nnoremap <silent> <A-Left> :execute 'silent! tabmove ' . (tabpagenr()-2)<CR>
+nnoremap <silent> <A-Right> :execute 'silent! tabmove ' . tabpagenr()<CR>
 " Turn syntastic on/off
 nnoremap <C-F5> :SyntasticToggleMode<CR>
+" Fold a function, need to stay at the open brace
+nnoremap <Leader>f v%zf
+" Fold all functions in the file, each needs to have open brace on the first col
+nnoremap <F9> :%g /^{/ normal! zf%<CR> 
+
+" Wrap comments
+nnoremap <Leader>w gq}
 
 " Set emake compilation makeprg.
 "
@@ -212,9 +228,15 @@ autocmd FileType vim :set textwidth=999
 
 " Custom file type to syntax mappings.
 "
-autocmd BufEnter *.{icc,tcc} set filetype=cpp
+autocmd BufEnter *.{c,icc,tcc} set filetype=cpp
+"autocmd BufEnter Tmakefile,Trules,*/TCONFIG/*{api,clang,gcc,version,win}* set filetype=tmake
+"autocmd BufEnter *.{ddm,ds} set filetype=ddm
+"autocmd BufEnter *.{hh,cc,icc,tcc} set filetype=cxx
+autocmd BufEnter *.ace,*/API/utils/ttcs*,*/CS/utils/ttcs*,*/CS/test/test.*,*/ACE/utils/[tu]* set filetype=ace
 autocmd BufEnter Tmakefile,Trules,*/TCONFIG/*{api,clang,gcc,version,win}* set filetype=tmake
-
+autocmd BufEnter *.{ddm,ds} set filetype=ddm
+autocmd FileType msg :set nosi noai noexpandtab tabstop=8 nosmarttab
+autocmd BufEnter,BufNewFile,BufReadPost,BufRead *.msg set filetype=msg
 
 " YouCompleteMe Options
 let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/cpp/ycm/.ycm_extra_conf.py'
@@ -222,5 +244,41 @@ let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/cpp/ycm/.ycm_extr
 " Ctrl-P option
 let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:10,results:100'
 
-autocmd FileType msg :set nosi noai noexpandtab tabstop=8 nosmarttab
-autocmd BufEnter,BufNewFile,BufReadPost,BufRead *.msg set filetype=msg
+"autocmd FileType msg :set nosi noai noexpandtab tabstop=8 nosmarttab
+"autocmd BufEnter,BufNewFile,BufReadPost,BufRead *.msg set filetype=msg
+
+" Yanking to system wide clipboard
+set clipboard=unnamed
+
+" Insert new line before copy a block of code
+nnoremap <Leader>p o<ESC>p
+
+" Display only filename without its path on the tab title
+set guitablabel=%t\ %M
+
+" Auto highlighting line and column at cursor position
+augroup CursorLine
+  au!
+  au VimEnter,WinEnter,BufWinEnter * setlocal cursorline cursorcolumn
+  au WinLeave * setlocal nocursorline nocursorcolumn
+augroup END
+
+" Set shortcut to turn on/off line and column highlighting
+nnoremap <Leader>h :set cursorline! cursorcolumn!<CR>
+
+" Shorcut to toggle to turn on/off line number
+nnoremap <Leader>n :set invnumber<CR>
+
+" Shortcut to save the current file to a common backup location with timestamp appended
+function! WriteBackup()
+    let fname = expand("%:t") . "_" . strftime("%Y-%m-%d_%H.%M.%S")
+    silent execute ":w /mnt/nas1/users/pdc/Backup_src/" . fname
+    echo "Saved to .../nas1/users/pdc/Backup_src/" . fname
+endfun
+nnoremap <Leader><F2> :call WriteBackup()<CR>
+
+" Change colour of the current line number
+" hi CursorLineNr   term=bold ctermfg=Yellow gui=bold guifg=Yellow
+
+" Set tags
+set tags=./tags,tags;$HOME
