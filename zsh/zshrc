@@ -43,6 +43,11 @@ function unset_proxy() {
     unset https_proxy
 }
 
+#----------------------------------------
+# Themes
+#----------------------------------------
+source $HOME/dev-env/minimal/minimal.zsh
+
 
 #----------------------------------------
 # Plugins

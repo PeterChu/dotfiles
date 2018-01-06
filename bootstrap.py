@@ -25,12 +25,11 @@ for entry in os.listdir(src):
         # Go through all subdirectories except '.git'
         if entry != '.git':
             # Create symlinks for all files and subdirectories of the current sub directory
-            for current_dir, sub_dirs, files in os.walk(os.path.join(src, entry)):
-                for file_name in files:
-                    os.symlink(os.path.join(src, entry, file_name), os.path.join(dest, '.' + file_name))
-                for sub_dir_name in sub_dirs:
-                    os.symlink(os.path.join(src, entry, sub_dir_name), os.path.join(dest, '.' + sub_dir_name), True)
-
+            for sub_entry in os.listdir(os.path.join(src, entry)):
+                if os.path.isfile(os.path.join(src, entry, sub_entry)):
+                    os.symlink(os.path.join(src, entry, sub_entry), os.path.join(dest, '.' + sub_entry))
+                else:
+                    os.symlink(os.path.join(src, entry, sub_entry), os.path.join(dest, '.' + sub_entry), True)
 
 
 
