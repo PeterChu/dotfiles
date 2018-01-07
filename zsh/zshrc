@@ -16,27 +16,16 @@ add-zsh-hook chpwd chpwd_recent_dirs
 
 
 #----------------------------------------
+# Configure history
+#----------------------------------------
+SAVEHIST=100
+HISTFILE=~/.zsh_history
+setopt APPEND_HISTORY
+setopt share_history
+
+#----------------------------------------
 # Keybindings
 #----------------------------------------
-
-
-#----------------------------------------
-# Path and environment variables
-#----------------------------------------
-
-# Path to GNU Coreutils
-if [ -d "/usr/local/opt/coreutils/libexec/gnubin" ] ; then
-    export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
-fi
-
-# Path to GNU Coreutils man pages
-if [ -d "/usr/local/opt/coreutils/libexec/gnuman" ] ; then
-    export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
-fi
-
-# Customise LS_COLORS if necessary
-# TODO: Set specific colours for different file types
-#export LS_COLORS=$LS_COLORS:'di=0;94:'
 
 #----------------------------------------
 # Alias
@@ -55,9 +44,28 @@ alias egrep="egrep --color=always"
 
 alias ssh_proxy="ssh -o \"ProxyCommand=nc -X connect -x 127.0.0.1:8079 %h %p\"" 
 
+# Customise LS_COLORS if necessary
+# TODO: Set specific colours for different file types
+#export LS_COLORS=$LS_COLORS:'di=0;94:'
+
 
 #----------------------------------------
-# Functions
+# Path and environment variables
+#----------------------------------------
+
+# Path to GNU Coreutils
+if [ -d "/usr/local/opt/coreutils/libexec/gnubin" ] ; then
+    export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+fi
+
+# Path to GNU Coreutils man pages
+if [ -d "/usr/local/opt/coreutils/libexec/gnuman" ] ; then
+    export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
+fi
+
+
+#----------------------------------------
+# Set proxy if necessary 
 #----------------------------------------
 
 # Set proxy
@@ -72,9 +80,19 @@ function unset_proxy() {
     unset https_proxy
 }
 
+# Try to reach google.com, if unreachable then set or unset proxy as necessary
+curl -D- -o /dev/null -s http://www.google.com
+if [[ $? != 0 ]]; then
+  if [[ -v http_proxy ]]; then
+    unset_proxy
+  else
+    set_proxy
+  fi
+fi
+
 
 #----------------------------------------
-# nvm
+# Lazy load nvm
 #----------------------------------------
 
 # Source: https://gist.github.com/fl0w/07ce79bd44788f647deab307c94d6922
@@ -99,6 +117,12 @@ npm() {
   lazynvm
   npm $@
 }
+
+
+#----------------------------------------
+# Other functions
+#----------------------------------------
+
 
 #----------------------------------------
 # Themes
