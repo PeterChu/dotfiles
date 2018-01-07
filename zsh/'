@@ -42,9 +42,6 @@ fi
 # Alias
 #----------------------------------------
 
-alias cd..="cd .."
-alias ..="cd .."
-
 alias ls="ls -F --color=always" 
 alias ll="ls -lhF --color=always" 
 alias la="ls -lahF --color=always" 
