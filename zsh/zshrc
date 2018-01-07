@@ -53,6 +53,8 @@ alias grep="grep --color=always"
 
 alias egrep="egrep --color=always"
 
+alias ssh_proxy="ssh -o \"ProxyCommand=nc -X connect -x 127.0.0.1:8079 %h %p\"" 
+
 #----------------------------------------
 # Functions
 #----------------------------------------
