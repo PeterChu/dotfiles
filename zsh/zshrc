@@ -18,9 +18,10 @@ add-zsh-hook chpwd chpwd_recent_dirs
 #----------------------------------------
 # Configure history
 #----------------------------------------
-SAVEHIST=100
 HISTFILE=~/.zsh_history
-setopt APPEND_HISTORY
+HISTSIZE=100
+SAVEHIST=100
+setopt append_history
 setopt share_history
 
 #----------------------------------------
