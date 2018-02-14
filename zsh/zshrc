@@ -64,6 +64,10 @@ if [ -d "/usr/local/opt/coreutils/libexec/gnuman" ] ; then
     export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
 fi
 
+# Path for MacVim in Terminal
+if [ -d "/Applications/MacVim.app/Contents/bin" ] ; then
+    export PATH="/Applications/MacVim.app/Contents/bin:$PATH"
+fi
 
 #----------------------------------------
 # Set proxy if necessary 
