@@ -117,9 +117,20 @@ node() {
   lazynvm
   node $@
 }
- 
+
+npm_proxy() {
+  if [[ -v http_proxy ]]; then
+    npm config set proxy http://127.0.0.1:8079/
+    npm config set https-proxy http://127.0.0.1:8079/
+  else
+    npm config rm proxy
+    npm config rm https-proxy
+  fi
+}
+
 npm() {
   lazynvm
+  npm_proxy
   npm $@
 }
 
