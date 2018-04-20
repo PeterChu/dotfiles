@@ -193,6 +193,8 @@ map <A-F8> :cl<CR>
 map <C-F> :CtrlP
 map <Home> ^
 imap <Home> <Esc>^i
+" Select block
+nnoremap <C-A-V> <C-V>
 " Switch between windows
 nnoremap <Tab> <C-W>W
 " Close the current window
