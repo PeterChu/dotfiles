@@ -51,7 +51,7 @@ alias ssh_proxy="ssh -o \"ProxyCommand=nc -X connect -x 127.0.0.1:8079 %h %p\""
 
 
 #----------------------------------------
-# Path and environment variables
+# Set path and environment variables
 #----------------------------------------
 
 # Path to GNU Coreutils
@@ -65,8 +65,18 @@ if [ -d "/usr/local/opt/coreutils/libexec/gnuman" ] ; then
 fi
 
 # Path for MacVim in Terminal
-if [ -d "/Applications/MacVim.app/Contents/bin" ] ; then
-    export PATH="/Applications/MacVim.app/Contents/bin:$PATH"
+# if [ -d "/Applications/MacVim.app/Contents/bin" ] ; then
+#     export PATH="/Applications/MacVim.app/Contents/bin:$PATH"
+# fi
+
+# Path for Java
+if [ -e "/usr/libexec/java_home" ] ; then
+    export JAVA_HOME="$(/usr/libexec/java_home -v 1.8)"
+fi
+
+# Path for Maven
+if [ -d "/usr/local/opt/maven/bin" ] ; then
+    export PATH="/usr/local/opt/maven/bin:$PATH"
 fi
 
 #----------------------------------------
