@@ -65,9 +65,9 @@ if [ -d "/usr/local/opt/coreutils/libexec/gnuman" ] ; then
 fi
 
 # Path for MacVim in Terminal
-# if [ -d "/Applications/MacVim.app/Contents/bin" ] ; then
-#     export PATH="/Applications/MacVim.app/Contents/bin:$PATH"
-# fi
+if [ -d "/Applications/MacVim.app/Contents/bin" ] ; then
+    export PATH="/Applications/MacVim.app/Contents/bin:$PATH"
+fi
 
 # Path for Java
 if [ -e "/usr/libexec/java_home" ] ; then
