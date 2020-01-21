@@ -59,6 +59,11 @@ if [ -d "/usr/local/opt/coreutils/libexec/gnubin" ] ; then
     export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 fi
 
+# Path to GNU sed
+if [ -d "/usr/local/opt/gnu-sed/libexec/gnubin" ] ; then
+    export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
+fi
+
 # Path to GNU Coreutils man pages
 if [ -d "/usr/local/opt/coreutils/libexec/gnuman" ] ; then
     export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
@@ -77,11 +82,6 @@ fi
 # Path for Maven
 if [ -d "/usr/local/opt/maven/bin" ] ; then
     export PATH="/usr/local/opt/maven/bin:$PATH"
-fi
-
-# Path for aws-cli
-if [ -f "~/Library/Python/3.7/bin/aws" ] ; then
-    export PATH="~/Library/Python/3.7/bin:$PATH"
 fi
 
 #----------------------------------------
