@@ -40,8 +40,10 @@ alias ll="ls -lhF --color=always"
 alias la="ls -lahF --color=always" 
 
 alias grep="grep --color=always"
-
 alias egrep="egrep --color=always"
+
+#-------Kubernetes aliases
+alias k="kubectl"
 
 alias ssh_proxy="ssh -o \"ProxyCommand=nc -X connect -x 127.0.0.1:8079 %h %p\"" 
 
@@ -168,3 +170,7 @@ fpath=(/usr/local/share/zsh-completions $fpath)
 source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 #source /usr/local/share/zsh-history-substring-search/zsh-history-substring-search.zsh
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/Users/d801439/.sdkman"
+[[ -s "/Users/d801439/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/d801439/.sdkman/bin/sdkman-init.sh"
